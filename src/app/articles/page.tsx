@@ -10,13 +10,17 @@ import AllArticlesPageSkeleton from "@/components/article/aLL-articles-page-skel
 
 const ITEMS_PER_PAGE = 3;
 
+// Change
 interface PageProps {
-  searchParams?: Record<string, string | string[]>;
+  searchParams?: Promise<Record<string, string | string[]>>;
 }
 
 export default async function Page({ searchParams }: PageProps) {
-  const rawSearch = searchParams?.search;
-  const rawPage = searchParams?.page;
+  // Await the searchParams since it's now a Promise in Next.js 15
+  const resolvedSearchParams = await searchParams;
+
+  const rawSearch = resolvedSearchParams?.search;
+  const rawPage = resolvedSearchParams?.page;
 
   const searchText =
     typeof rawSearch === "string" ? rawSearch.trim().toLowerCase() : "";
